@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: citizens
+          uri: http://127.0.0.1:8081
+          predicates:
+            - Path=/api/citizen/**
+        - id: cars
+          uri: http://127.0.0.1:8082
+          predicates:
+            - Path=/api/cars/**

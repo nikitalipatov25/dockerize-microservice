@@ -1,0 +1,26 @@
+spring:
+#  kafka:
+#    consumer:
+#      bootstrap-servers: localhost:29092
+#      group-id: city
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+  application:
+    name: citizens
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/citizens
+    username: postgres
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+server:
+  port: 8081
+
+
