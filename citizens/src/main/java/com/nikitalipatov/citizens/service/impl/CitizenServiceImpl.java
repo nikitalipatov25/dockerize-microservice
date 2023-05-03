@@ -13,15 +13,13 @@ import com.nikitalipatov.common.enums.Status;
 import com.nikitalipatov.common.error.ResourceNotFoundException;
 import com.nikitalipatov.kafkastarter.service.KafkaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -34,13 +32,13 @@ import java.util.stream.Collectors;
 @EnableAsync
 public class CitizenServiceImpl implements CitizenService {
 
-    private final ApplicationContext applicationContext;
-//    private final KafkaTemplate<String, KafkaMessage> kafkaTemplate;
     private final KafkaService kafkaService;
-    private final KafkaProperties kafkaProperties;
     private final CitizenRepository citizenRepository;
     private final CitizenMapper citizenMapper;
     private final ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+    @Value("${kafka-starter.command}")
+    private String topic;
 
     @Scheduled(fixedDelay = 60000)
     public void cloneFactory() {
@@ -93,13 +91,7 @@ public class CitizenServiceImpl implements CitizenService {
                 EventType.CITIZEN_DELETED,
                 personId
         );
-        //System.out.println(kafkaProperties);
-//        kafkaService.send(message);
-        System.out.println(kafkaProperties.getBootstrapServers());
-        var a = Arrays.asList(applicationContext.getBeanDefinitionNames());
-        System.out.println(a);
-        kafkaService.send(message);
-//        kafkaTemplate.send("command", message);
+        kafkaService.send(topic, message);
     }
 
     @Override

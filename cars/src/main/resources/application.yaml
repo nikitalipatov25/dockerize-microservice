@@ -1,9 +1,4 @@
 spring:
-#  kafka:
-#    consumer:
-#      bootstrap-servers: localhost:29092
-#      group-id: city
-#      auto-offset-reset: earliest
   application:
     name: cars
   datasource:
@@ -20,3 +15,9 @@ spring:
     generate-ddl: true
 server:
   port: 8082
+kafka-starter:
+  port: localhost:29092
+  group: city
+  command: command
+  result: result
+  containerFactory: kafkaListenerContainerFactory

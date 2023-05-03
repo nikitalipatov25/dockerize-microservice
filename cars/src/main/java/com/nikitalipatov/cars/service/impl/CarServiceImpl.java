@@ -7,8 +7,8 @@ import com.nikitalipatov.cars.service.CarService;
 import com.nikitalipatov.common.annotation.ChooseWinner;
 import com.nikitalipatov.common.dto.kafka.KafkaMessage;
 import com.nikitalipatov.common.dto.request.CarDtoRequest;
-import com.nikitalipatov.common.dto.response.CitizenDtoResponse;
 import com.nikitalipatov.common.dto.response.CarDtoResponse;
+import com.nikitalipatov.common.dto.response.CitizenDtoResponse;
 import com.nikitalipatov.common.enums.EventType;
 import com.nikitalipatov.common.enums.LotteryStatus;
 import com.nikitalipatov.common.enums.ModelStatus;
@@ -16,11 +16,12 @@ import com.nikitalipatov.common.enums.Status;
 import com.nikitalipatov.common.error.LotteryException;
 import com.nikitalipatov.common.error.ResourceNotFoundException;
 import com.nikitalipatov.common.feign.CitizenClient;
+import com.nikitalipatov.kafkastarter.service.KafkaService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -41,11 +42,14 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
-    private final KafkaTemplate<String, KafkaMessage> kafkaTemplate;
+    private final KafkaService kafkaService;
     private final CitizenClient citizenClient;
 
     @Lazy @Autowired
     private CarServiceImpl carService;
+
+    @Value("${kafka-starter.result}")
+    private String topic;
 
     @SneakyThrows
     @Scheduled(fixedDelay = 60000)
@@ -107,7 +111,7 @@ public class CarServiceImpl implements CarService {
                     EventType.CAR_DELETED,
                     personId
             );
-            kafkaTemplate.send("result", message);
+            kafkaService.send(topic, message);
         } catch (Exception e) {
             var message = new KafkaMessage(
                     UUID.randomUUID(),
@@ -115,7 +119,7 @@ public class CarServiceImpl implements CarService {
                     EventType.CAR_DELETED,
                     personId
             );
-            kafkaTemplate.send("result", message);
+            kafkaService.send(topic, message);
         }
     }
 

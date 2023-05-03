@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@KafkaListener(topics = "command", groupId = "city", containerFactory = "kafkaListenerContainerFactory")
+@KafkaListener(topics = "${kafka-starter.command}", groupId = "${kafka-starter.group}", containerFactory = "${kafka-starter.containerFactory}")
 public class CarListener {
 
     private final CarService carService;

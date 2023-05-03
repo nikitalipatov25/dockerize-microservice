@@ -48,10 +48,10 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.nikitalipatov</groupId>-->
-<!--            <artifactId>kafka-starter</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.nikitalipatov</groupId>
+            <artifactId>kafka-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

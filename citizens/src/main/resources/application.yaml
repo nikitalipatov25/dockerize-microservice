@@ -1,11 +1,4 @@
 spring:
-#  kafka:
-#    consumer:
-#      bootstrap-servers: localhost:29092
-#      group-id: city
-#      auto-offset-reset: earliest
-#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
   application:
     name: citizens
   datasource:
@@ -27,6 +20,5 @@ kafka-starter:
   group: city
   command: command
   result: result
-#logging:
-#  level:
-#    root: DEBUG
+  containerFactory: kafkaListenerContainerFactory
+

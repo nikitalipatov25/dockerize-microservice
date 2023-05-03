@@ -13,4 +13,5 @@ public class StarterProperties {
     private String group;
     private String command;
     private String result;
+    private String containerFactory;
 }
