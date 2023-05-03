@@ -1,34 +1,30 @@
-#spring:
-#  kafka:
-#    topic:
-#      n
-#    consumer:
-#      bootstrap-servers: localhost:29092
-#      group-id: city
-#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
-#    producer:
-#      bootstrap-servers: localhost:29092
-#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-#      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
-kafka-starter:
-  port: localhost:29092
-  group: city
-  command: command
-  result: result
-
-
-
-## Kafka topic config ##
-#spring:
-#  kafka:
-#    topic
-#  topic=user-details-topic
-#  spring.kafka.topic.group.id=user-details
-
-
-  ## kafka consumer config ##
+##spring:
+##  kafka:
+##    topic:
+##      n
+##    consumer:
+##      bootstrap-servers: localhost:29092
+##      group-id: city
+##      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+##      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+##    producer:
+##      bootstrap-servers: localhost:29092
+##      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+##      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#
+#
+#
+#
+#
+### Kafka topic config ##
+##spring:
+##  kafka:
+##    topic
+##  topic=user-details-topic
+##  spring.kafka.topic.group.id=user-details
+#
+#
+#  # kafka consumer config ##
 #spring:
 #  kafka:
 #    consumer:
@@ -43,9 +39,3 @@ kafka-starter:
 #      key-serializer: org.apache.kafka.common.serialization.StringSerializer
 #      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 #    bootstrap-servers: localhost:29092
-
-com:
-  nikitalipatov:
-    kafkastarter:
-      config:
-        StarterAutoConfiguration:

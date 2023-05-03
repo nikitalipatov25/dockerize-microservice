@@ -22,5 +22,11 @@ spring:
     generate-ddl: true
 server:
   port: 8081
-
-
+kafka-starter:
+  port: localhost:29092
+  group: city
+  command: command
+  result: result
+#logging:
+#  level:
+#    root: DEBUG
