@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "Car", url = "http://localhost:8082/api/car")
+@FeignClient(value = "Car", url = "http://cars:8082/api/car")
 public interface CarClient {
 
     @DeleteMapping(value = "/delete/citizen/{citizenId}")

@@ -42,4 +42,9 @@ public class CitizenController implements CitizenClient {
         citizenService.deleteCitizen(id);
     }
 
+    @Override
+    public CitizenDtoResponse find(int id) {
+        return citizenService.findCitizen(id);
+    }
+
 }

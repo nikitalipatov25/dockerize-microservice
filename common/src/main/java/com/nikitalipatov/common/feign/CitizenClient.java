@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "Citizen", url = "http://localhost:8081/api/citizen")
+@FeignClient(value = "Citizen", url = "http://citizens:8081/api/citizen")
 public interface CitizenClient {
 
     @GetMapping(value = "/rollback/{personId}")
@@ -24,5 +24,8 @@ public interface CitizenClient {
 
     @DeleteMapping(value = "/delete/{id}")
     void delete(@PathVariable int id);
+
+    @GetMapping(value = "/{id}")
+    CitizenDtoResponse find(@PathVariable int id);
 
 }

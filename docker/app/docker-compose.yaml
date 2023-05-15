@@ -7,45 +7,49 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
+    networks:
+      - mynet
   kafka:
+    hostname: kafka
+    container_name: kafka
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
     ports:
-      - 29092:29092
+      - 9092:9092
     environment:
-      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - mynet
   db:
     image: postgres:latest
     container_name: db
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - /var/lib/pgsql/data
+      - C:/Users/zuzex/IdeaProjects/microservices-docker/docker/app/sql/create_dbs.sql:/docker-entrypoint-initdb.d/create_dbs.sql
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=postgres
-      - POSTGRES_MULTIPLE_DATABASES=citizens, cars
-      - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - 5432:5432
     restart: unless-stopped
     networks:
       - mynet
-# APP*****************************************
   citizens:
     image: docker.io/library/citizens:0.0.1-SNAPSHOT
     container_name: citizens
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-citizens:5431/compose-postgres
-#      - SPRING_DATASOURCE_USERNAME=postgres
-#      - SPRING_DATASOURCE_PASSWORD=root
-#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#    ports:
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/citizens
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
 #      - 8081:8081
+      - 8081
     restart: unless-stopped
     depends_on:
       - db
@@ -56,13 +60,14 @@ services:
   cars:
     image: docker.io/library/cars:0.0.1-SNAPSHOT
     container_name: cars
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-cars:5432/compose-postgres
-#      - SPRING_DATASOURCE_USERNAME=postgres
-#      - SPRING_DATASOURCE_PASSWORD=root
-#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#    ports:
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cars
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
 #      - 8082:8082
+      - 8082
     restart: unless-stopped
     depends_on:
       - db
@@ -78,10 +83,6 @@ services:
     restart: unless-stopped
     networks:
       - mynet
-
-volumes:
-  postgres-data:
-
 networks:
   mynet:
     driver: bridge

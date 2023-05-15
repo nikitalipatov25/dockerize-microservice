@@ -1,11 +1,13 @@
 package com.nikitalipatov.citizens.service.impl;
 
+import com.nikitalipatov.cars.service.CarService;
 import com.nikitalipatov.citizens.mapper.CitizenMapper;
 import com.nikitalipatov.citizens.model.Citizen;
 import com.nikitalipatov.citizens.repository.CitizenRepository;
 import com.nikitalipatov.citizens.service.CitizenService;
 import com.nikitalipatov.common.dto.kafka.KafkaMessage;
 import com.nikitalipatov.common.dto.request.PersonDtoRequest;
+import com.nikitalipatov.common.dto.response.CarDtoResponse;
 import com.nikitalipatov.common.dto.response.CitizenDtoResponse;
 import com.nikitalipatov.common.enums.EventType;
 import com.nikitalipatov.common.enums.ModelStatus;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 @EnableAsync
 public class CitizenServiceImpl implements CitizenService {
 
+    private final CarService carService;
     private final KafkaService kafkaService;
     private final CitizenRepository citizenRepository;
     private final CitizenMapper citizenMapper;
@@ -56,6 +59,16 @@ public class CitizenServiceImpl implements CitizenService {
             citizen.setStatus(ModelStatus.ACTIVE.name());
             citizenRepository.save(citizen);
         }
+    }
+
+    @Override
+    public CitizenDtoResponse findCitizen(int citizenId) {
+        Citizen citizen = getCitizen(citizenId);
+        List<CarDtoResponse> citizenCars = carService.getCitizenCar(citizenId);
+        return CitizenDtoResponse.builder()
+                .name(citizen.getName())
+                .cars(citizenCars)
+                .build();
     }
 
     @Override

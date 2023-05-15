@@ -81,7 +81,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDtoResponse> getAllCitizenCars() {
-        return carRepository.findAllActive().stream().map(carMapper::toDto).collect(Collectors.toList());
+        return carRepository.findAllByStatus("ACTIVE").stream().map(carMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

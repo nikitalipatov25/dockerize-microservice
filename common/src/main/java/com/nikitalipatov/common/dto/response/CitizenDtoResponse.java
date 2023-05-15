@@ -2,6 +2,8 @@ package com.nikitalipatov.common.dto.response;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -15,4 +17,5 @@ public class CitizenDtoResponse {
     private String passportSerial;
     private String passportNumber;
     private String work;
+    private List<CarDtoResponse> cars;
 }

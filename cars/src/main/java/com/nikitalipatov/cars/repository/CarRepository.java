@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car, Integer> {
     List<Car> findAllByOwnerId(int personId);
-    @Query(value = "SELECT c.id, c.ownerId, c.status, c.color, c.gosNumber, c.model, c.name FROM Car c WHERE c.status = 'ACTIVE'")
-    List<Car> findAllActive();
+//    @Query(value = "SELECT c.id, c.ownerId, c.status, c.color, c.gosNumber, c.model, c.name FROM Car c WHERE c.status = 'ACTIVE'")
+//    List<Car> findAllActive();
+    List<Car> findAllByStatus(String status);
 }

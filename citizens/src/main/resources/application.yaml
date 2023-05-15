@@ -16,7 +16,7 @@ spring:
 server:
   port: 8081
 kafka-starter:
-  port: localhost:29092
+  port: kafka:9092
   group: city
   command: command
   result: result

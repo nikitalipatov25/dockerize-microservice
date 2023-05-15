@@ -19,4 +19,6 @@ public interface CitizenService {
 
     void rollbackCitizenDeletion(int citizenId);
 
+    CitizenDtoResponse findCitizen(int citizenId);
+
 }
